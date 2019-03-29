@@ -1,0 +1,99 @@
+author: mongoose-os
+description: A Mongoose OS app skeleton
+version: 1.0
+
+#Build with mos-tool version 2.5.1
+#Sleep and wifi connection does not work with mos-tool version 2.6
+
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+
+# Optional. List of tags for online search.
+tags:
+  - c
+
+# List of files / directories with C sources. No slashes at the end of dir names.
+sources:
+  - src
+
+# List of dirs. Files from these dirs will be copied to the device filesystem
+filesystem:
+  - fs
+
+# Custom configuration entries, settable via "device configuration"
+# Below is a custom firmware configuration example.
+# Uncomment and modify according to your needs:
+
+# config_schema:
+#  - ["my_app", "o", {title: "My app custom settings"}]
+#  - ["my_app.bool_value", "b", false, {title: "Some boolean value"}]
+#  - ["my_app.string_value", "s", "", {title: "Some string value"}]
+#  - ["my_app.int_value", "i", 123, {title: "Some integer value"}]
+
+# These settings get compiled into the C structure, and can be accessed
+# from the C code this way:
+#
+# printf("Hello from %s!\n", mgos_sys_config_get_device_id());
+#
+# Settings are cool: can be modified remotely without full firmware upgrade!
+#
+# To see all available compiled settings, buid the firmware and open
+# build/gen/mgos_config.h file.
+#
+# Also, in this config_schema section, you can override existing
+# settings that has been created by other libraries. For example, debug log
+# level is 2 by default. For this firmware we can override it to 3:
+#
+# config_schema:
+#  - ["debug.level", 3]
+
+# build_vars: 
+#   MGOS_ADC_MODE_VDD: 1
+
+config_schema:
+  - ["conf_acl", "wifi.ap.enable,wifi.sta.*,app.*,debug.level,debug.filter,hardware.retry"]
+  - ["app", "o", {title: "App parameter settings"}]
+  - ["app.sleep_timer", "i", 15, {title: "Timer setting for auto sleep"}]
+  - ["app.location", "o", {title: "Storing location information of device"}]
+  - ["app.location.group", "s", "Building", {title: "Location group device of the device"}]
+  - ["app.location.sub_group", "s", "Floor", {title: "Location sub-group of the device"}]
+  - ["app.location.name", "s", "Room", {title: "Location name of the device"}]
+  - ["app.server", "s", "192.168.1.0:5000", {title: "Location name of the device"}]
+  - ["hardware", "o", {title: "Hardware pin mappings"}]
+  - ["hardware.callpin", "i", 0, {title: "Call pin Number"}]  
+  - ["hardware.led", "o", {title: "Hardware pin mappings"}]
+  - ["hardware.led.pin", "i", 5, {title: "Notification LED pin number"}]
+  - ["hardware.led.ontime", "i", 30000, {title: " LED on time number"}]
+  - ["hardware.retry", "o", {title: "For retry"}]
+  - ["hardware.retry.count", "i", 3, {title: "Number of retries"}]
+  - ["hardware.retry.interval", "i", 10000, {title: "Retry interval"}] 
+  - ["debug.level", 3]
+  - ["device.id", "Preesu_??????"]
+  - ["device.password", "12345678"]
+  - ["wifi.sta.enable", false]
+  - ["wifi.ap.enable", true]
+  - ["wifi.ap.ssid", "Preesu_??????"]
+  - ["wifi.ap.pass", "12345678"]
+  - ["wifi.ap.ip", "192.168.4.1"]
+  - ["provision.btn.pin", 13]
+  - ["provision.btn.pull_up", true]
+  - ["provision.btn.hold_ms", 5000]
+  - ["provision.led.pin", 15]
+  - ["provision.led.active_high", false]
+  - ["provision.stable_state", 2]
+  - ["provision.timeout",3000]
+ 
+
+libs:
+  - origin: https://github.com/mongoose-os-libs/ca-bundle
+  - origin: https://github.com/mongoose-os-libs/wifi
+  - origin: https://github.com/mongoose-os-libs/http-server
+  - origin: https://github.com/mongoose-os-libs/adc
+  - origin: https://github.com/mongoose-os-libs/rpc-service-config
+  - origin: https://github.com/mongoose-os-libs/rpc-service-fs
+  - origin: https://github.com/mongoose-os-libs/rpc-uart
+  - origin: https://github.com/mongoose-os-libs/provision
+
+# Used by the mos tool to catch mos binaries incompatible with this file format
+manifest_version: 2017-09-29
